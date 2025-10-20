@@ -103,7 +103,7 @@ public class Employee {
 
     // if no punch time is not set, set it to the current time
     // if a punch time is set, find the difference to track hours worked, and reset punch time
-    public void punchTimeCard(LocalDateTime punchTime) {
+    public void punchTimeCard() {
         if (this.punchTime == null) {
             this.punchTime = LocalDateTime.now();
         } else {
