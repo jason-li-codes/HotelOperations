@@ -5,12 +5,14 @@ import java.time.DayOfWeek;
 
 public class Reservation {
 
+    // all Reservation attributes
     private Room room;
     private String guestName;
     private LocalDate startDate;
     private int numberOfNights;
     private boolean isWeekend;
 
+    // constructor with all parameters except one, which will be calculated with a class method
     public Reservation(Room room, String guestName, LocalDate startDate, int numberOfNights) {
         this.room = room;
         this.guestName = guestName;
@@ -20,10 +22,12 @@ public class Reservation {
         this.calculateIsWeekend();
     }
 
+    // getters and setters
     public Room getRoom() {
         return this.room;
     }
 
+    // includes getRoomNumber so it can be accessed from both Room and Reservation class
     public String getRoomNumber() {
         return this.room.getRoomNumber();
     }
@@ -48,6 +52,7 @@ public class Reservation {
         this.startDate = startDate;
     }
 
+    // getter for end date depends on startDate and numberOfNights, and could change
     public LocalDate getEndDate() {
         return startDate.plusDays(numberOfNights);
     }
@@ -68,6 +73,7 @@ public class Reservation {
         isWeekend = weekend;
     }
 
+    // checks each night of stay and, if it falls on a weekend, changes isWeekend to true and breaks from loop
     private void calculateIsWeekend() {
 
         for (int i = 0; i < this.numberOfNights; i++) {
@@ -87,6 +93,7 @@ public class Reservation {
         this.room.setType(roomType);
     }
 
+    // tries getting pricePerNight by calling on Room class with method, with catch for potential null
     public double getPricePerNight() {
 
         try {
@@ -97,6 +104,7 @@ public class Reservation {
         return 0;
     }
 
+    // returns total price depending on pricePerNight, numberOfNights, and isWeekend boolean
     public double getReservationTotal() {
 
         if (!isWeekend) {
