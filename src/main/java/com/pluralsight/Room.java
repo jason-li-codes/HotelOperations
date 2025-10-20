@@ -50,11 +50,11 @@ public class Room {
         return !(this.isDirty || this.isOccupied);
     }
 
-    public double getPricePerNight() {
+    public Double getPricePerNight() {
         return switch (this.type) {
             case "king" -> 139.00;
             case "double" -> 124.00;
-            default -> 0;
+            default -> null;
         };
     }
 
