@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Employee {
 
     private String employeeId;
@@ -7,6 +10,7 @@ public class Employee {
     private String department;
     private double payRate;
     private double hoursWorked;
+    private LocalDateTime punchTime;
 
     private final double regularHourLimit = 40;
     private final double overtimePayMultiplier = 1.5;
@@ -77,6 +81,15 @@ public class Employee {
 
     public double getTotalPay() {
         return getRegularHours() * this.payRate + getOvertimeHours() * this.payRate * overtimePayMultiplier;
+    }
+
+    public void punchTimeCard(LocalDateTime punchTime) {
+        if (this.punchTime == null) {
+            this.punchTime = LocalDateTime.now();
+        } else {
+            this.setHoursWorked(this.getHoursWorked() + Duration.between(this.punchTime, LocalDateTime.now()).toHours());
+            this.punchTime = null;
+        }
     }
 
 }
