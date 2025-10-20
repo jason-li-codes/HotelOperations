@@ -2,6 +2,7 @@ package com.pluralsight;
 
 public class Room {
 
+    private String roomNumber;
     private String type;
     private int numberOfBeds;
     private boolean isOccupied;
@@ -12,6 +13,14 @@ public class Room {
         this.numberOfBeds = numberOfBeds;
         this.isOccupied = false;
         this.isDirty = true;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public String getType() {
@@ -56,6 +65,34 @@ public class Room {
             case "double" -> 124.00;
             default -> null;
         };
+    }
+
+    public void checkIn() {
+        if (this.isOccupied) {
+            System.out.printf("Room %s is occupied and cannot be checked into.\n", roomNumber);
+        } else if (this.isDirty) {
+            System.out.printf("Room %s is dirty and cannot be checked into.\n", roomNumber);
+        } else{
+            this.setOccupied(true);
+            this.setDirty(true);
+        }
+    }
+
+    public void cleanRoom(Employee employee) {
+        if (!this.isDirty) {
+            System.out.printf("%s is not dirty and does not need cleaning.\n", roomNumber);
+        } else {
+            this.setDirty(false);
+        }
+    }
+
+    public void checkOut() {
+        if (!this.isOccupied) {
+            System.out.printf("%s is not occupied and does not to be checked out of.", roomNumber);
+        }
+        else {
+            this.setOccupied(false);
+        }
     }
 
 }
