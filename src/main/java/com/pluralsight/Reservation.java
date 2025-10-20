@@ -5,16 +5,14 @@ import java.time.DayOfWeek;
 
 public class Reservation {
 
-    private Room roomNumber;
+    private Room room;
     private String guestName;
     private LocalDate startDate;
     private int numberOfNights;
     private boolean isWeekend;
 
-    private final double weekendPriceMultiplier = 1.1;
-
-    public Reservation(Room roomNumber, String guestName, LocalDate startDate, int numberOfNights) {
-        this.roomNumber = roomNumber;
+    public Reservation(Room room, String guestName, LocalDate startDate, int numberOfNights) {
+        this.room = room;
         this.guestName = guestName;
         this.startDate = startDate;
         this.numberOfNights = numberOfNights;
@@ -22,12 +20,16 @@ public class Reservation {
         this.calculateIsWeekend();
     }
 
-    public Room getRoomNumber() {
-        return roomNumber;
+    public Room getRoom() {
+        return this.room;
     }
 
-    public void setRoomNumber(Room roomNumber) {
-        this.roomNumber = roomNumber;
+    public String getRoomNumber() {
+        return this.room.getRoomNumber();
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public String getGuestName() {
@@ -59,7 +61,7 @@ public class Reservation {
     }
 
     public boolean isWeekend() {
-        return isWeekend;
+        return this.isWeekend;
     }
 
     public void setWeekend(boolean weekend) {
@@ -78,29 +80,29 @@ public class Reservation {
     }
 
     public String getRoomType() {
-        return this.roomNumber.getType();
+        return this.room.getType();
     }
 
     public void setRoomType(String roomType) {
-        this.roomNumber.setType(roomType);
+        this.room.setType(roomType);
     }
 
     public double getPricePerNight() {
 
         try {
-            return (double) this.roomNumber.getPricePerNight();
+            return (double) this.room.getPricePerNight();
         } catch (NullPointerException e) {
-            System.out.println("This room does not have a price set yet.");
+            System.out.printf("Room %s does not have a price set yet.\n", this.getRoom().getRoomNumber());
         }
         return 0;
     }
 
     public double getReservationTotal() {
 
-        double total = 0;
         if (!isWeekend) {
             return getPricePerNight() * getNumberOfNights();
         } else {
+            double weekendPriceMultiplier = 1.1;
             return getPricePerNight() * getNumberOfNights() * weekendPriceMultiplier;
         }
     }
