@@ -31,6 +31,7 @@ public class Employee {
         this.name = name;
         this.department = department;
         this.payRate = payRate;
+        this.hoursWorked = 0.0;
     }
 
     // constructor with all parameters set
@@ -103,11 +104,20 @@ public class Employee {
 
     // if no punch time is not set, set it to the current time
     // if a punch time is set, find the difference to track hours worked, and reset punch time
+    public LocalDateTime getPunchTime() {
+        return punchTime;
+    }
+
+    public void setPunchTime(LocalDateTime punchTime) {
+        this.punchTime = punchTime;
+    }
+
     public void punchTimeCard() {
         if (this.punchTime == null) {
             this.punchTime = LocalDateTime.now();
         } else {
-            this.setHoursWorked(this.getHoursWorked() + Duration.between(this.punchTime, LocalDateTime.now()).toHours());
+            this.setHoursWorked(this.getHoursWorked() +
+                    Duration.between(this.punchTime, LocalDateTime.now()).toMinutes() / 60.0);
             this.punchTime = null;
         }
     }
