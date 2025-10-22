@@ -5,16 +5,16 @@ import java.time.DayOfWeek;
 
 public class Reservation {
 
-    private Room roomNumber;
+    // all Reservation attributes
+    private Room room;
     private String guestName;
     private LocalDate startDate;
     private int numberOfNights;
     private boolean isWeekend;
 
-    private final double weekendPriceMultiplier = 1.1;
-
-    public Reservation(Room roomNumber, String guestName, LocalDate startDate, int numberOfNights) {
-        this.roomNumber = roomNumber;
+    // constructor with all parameters except one, which will be calculated with a class method
+    public Reservation(Room room, String guestName, LocalDate startDate, int numberOfNights) {
+        this.room = room;
         this.guestName = guestName;
         this.startDate = startDate;
         this.numberOfNights = numberOfNights;
@@ -22,12 +22,18 @@ public class Reservation {
         this.calculateIsWeekend();
     }
 
-    public Room getRoomNumber() {
-        return roomNumber;
+    // getters and setters
+    public Room getRoom() {
+        return this.room;
     }
 
-    public void setRoomNumber(Room roomNumber) {
-        this.roomNumber = roomNumber;
+    // includes getRoomNumber so it can be accessed from both Room and Reservation class
+    public String getRoomNumber() {
+        return this.room.getRoomNumber();
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public String getGuestName() {
@@ -46,6 +52,7 @@ public class Reservation {
         this.startDate = startDate;
     }
 
+    // getter for end date depends on startDate and numberOfNights, and could change
     public LocalDate getEndDate() {
         return startDate.plusDays(numberOfNights);
     }
@@ -59,13 +66,14 @@ public class Reservation {
     }
 
     public boolean isWeekend() {
-        return isWeekend;
+        return this.isWeekend;
     }
 
     public void setWeekend(boolean weekend) {
         isWeekend = weekend;
     }
 
+    // checks each night of stay and, if it falls on a weekend, changes isWeekend to true and breaks from loop
     private void calculateIsWeekend() {
 
         for (int i = 0; i < this.numberOfNights; i++) {
@@ -78,29 +86,25 @@ public class Reservation {
     }
 
     public String getRoomType() {
-        return this.roomNumber.getType();
+        return this.room.getType();
     }
 
     public void setRoomType(String roomType) {
-        this.roomNumber.setType(roomType);
+        this.room.setType(roomType);
     }
 
+    // tries getting pricePerNight by calling on Room class with method, with catch for potential null
     public double getPricePerNight() {
-
-        try {
-            return (double) this.roomNumber.getPricePerNight();
-        } catch (NullPointerException e) {
-            System.out.println("This room does not have a price set yet.");
-        }
-        return 0;
+        return this.room.getPricePerNight();
     }
 
+    // returns total price depending on pricePerNight, numberOfNights, and isWeekend boolean
     public double getReservationTotal() {
 
-        double total = 0;
         if (!isWeekend) {
             return getPricePerNight() * getNumberOfNights();
         } else {
+            double weekendPriceMultiplier = 1.1;
             return getPricePerNight() * getNumberOfNights() * weekendPriceMultiplier;
         }
     }
