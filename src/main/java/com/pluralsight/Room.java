@@ -90,7 +90,7 @@ public class Room {
     // requires Employee to clean room, printing message if room is already clean
     public void cleanRoom(Employee employee) {
         if (this.isOccupied) {
-            System.out.printf("Room %s is occupied and cannot be cleaned.", roomNumber);
+            System.out.printf("Room %s is occupied and cannot be cleaned.\n", roomNumber);
         } else if (!this.isDirty) {
             System.out.printf("Room %s is not dirty and does not need cleaning.\n", roomNumber);
         } else {
