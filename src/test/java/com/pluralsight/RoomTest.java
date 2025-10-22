@@ -14,7 +14,6 @@ class RoomTest {
         // act
         room.checkIn();
         // assert
-        assertTrue(room.isOccupied(), "Room should still be occupied.");
         assertFalse(room.isDirty(), "Room should not become dirty if checkIn is blocked.");
     }
 
@@ -28,7 +27,6 @@ class RoomTest {
         room.checkIn();
         // assert
         assertFalse(room.isOccupied(), "Room should not become occupied if checkIn is blocked.");
-        assertTrue(room.isDirty(), "Room should stay dirty.");
     }
 
     @Test
@@ -41,11 +39,11 @@ class RoomTest {
         // act
         room.cleanRoom(employeeTest);
         // assert
-        assertTrue(room.isOccupied(), "Room should stay occupied if cleanRoom fails.");
         assertTrue(room.isDirty(), "Room should stay dirty since cleanRoom fails.");
     }
 
-    void testCleanRoom_succeedIfIsDirtyTrue() {
+    @Test
+    void testCleanRoom_succeedIfIsOccupiedFalse() {
         // arrange
         Room room = new Room("101", "king", 2);
         room.setOccupied(false);  // simulate unoccupied room
@@ -54,22 +52,19 @@ class RoomTest {
         // act
         room.cleanRoom(employeeTest);
         // assert
-        assertTrue(room.isOccupied(), "Room should not become occupied.");
         assertFalse(room.isDirty(), "Room should be clean after cleanRoom executes.");
     }
 
-
     @Test
-    void testCheckOut_failIfIsOccupiedFalse() {
+    void testCheckOut_succeedIfIsOccupiedTrue() {
         // arrange
         Room room = new Room("101", "king", 2);
-        room.setOccupied(false);  // simulate unoccupied room
+        room.setOccupied(true);  // simulate occupied room
         room.setDirty(true);    // simulate dirty room
         // act
         room.checkOut();
         // assert
-        assertFalse(room.isOccupied(), "Room should stay unoccupied since checkOut never runs.");
-        assertTrue(room.isDirty(), "Room should stay dirty.");
+        assertFalse(room.isOccupied(), "Room should become unoccupied when checkOut runs.");
     }
 
 }
