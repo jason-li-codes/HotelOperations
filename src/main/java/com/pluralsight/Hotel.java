@@ -63,11 +63,14 @@ public class Hotel {
 
         if (isSuite && getAvailableSuites() <= numberOfRoomsToBook) {
             bookedSuites += numberOfRoomsToBook;
+            System.out.printf("We have booked %d suites for you.\n", numberOfRoomsToBook);
             return true;
         } else if ((!isSuite) && getAvailableRooms() <= numberOfRoomsToBook) {
             bookedRooms += numberOfRoomsToBook;
+            System.out.printf("We have booked %d rooms for you.\n", numberOfRoomsToBook);
             return true;
         }
+        System.out.println("Booking failed, We do not have enough rooms available.");
         return false;
     }
 

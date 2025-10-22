@@ -23,6 +23,7 @@ public class Employee {
         this.department = department;
         this.payRate = 15.50;
         this.hoursWorked = 0.0;
+        this.punchTime = null;
     }
 
     // constructor for new Employee with payRate above minium wage, by default no hours worked
@@ -31,6 +32,8 @@ public class Employee {
         this.name = name;
         this.department = department;
         this.payRate = payRate;
+        this.hoursWorked = 0.0;
+        this.punchTime = null;
     }
 
     // constructor with all parameters set
@@ -40,6 +43,7 @@ public class Employee {
         this.department = department;
         this.payRate = payRate;
         this.hoursWorked = hoursWorked;
+        this.punchTime = null;
     }
 
     // getters and setters for all attributes
@@ -103,11 +107,31 @@ public class Employee {
 
     // if no punch time is not set, set it to the current time
     // if a punch time is set, find the difference to track hours worked, and reset punch time
+    public LocalDateTime getPunchTime() {
+        return punchTime;
+    }
+
+    public void setPunchTime(LocalDateTime punchTime) {
+        this.punchTime = punchTime;
+    }
+
+    // overloaded punchTimeCard method to accept current time or manually entered time
     public void punchTimeCard() {
         if (this.punchTime == null) {
             this.punchTime = LocalDateTime.now();
         } else {
-            this.setHoursWorked(this.getHoursWorked() + Duration.between(this.punchTime, LocalDateTime.now()).toHours());
+            this.setHoursWorked(this.getHoursWorked() +
+                    Duration.between(this.punchTime, LocalDateTime.now()).toMinutes() / 60.0);
+            this.punchTime = null;
+        }
+    }
+
+    public void punchTimeCard(LocalDateTime manualTime) {
+        if (this.punchTime == null) {
+            this.punchTime = manualTime;
+        } else {
+            this.setHoursWorked(this.getHoursWorked() +
+                    Duration.between(this.punchTime, manualTime).toMinutes() / 60.0);
             this.punchTime = null;
         }
     }

@@ -95,13 +95,7 @@ public class Reservation {
 
     // tries getting pricePerNight by calling on Room class with method, with catch for potential null
     public double getPricePerNight() {
-
-        try {
-            return (double) this.room.getPricePerNight();
-        } catch (NullPointerException e) {
-            System.out.printf("Room %s does not have a price set yet.\n", this.getRoom().getRoomNumber());
-        }
-        return 0;
+        return this.room.getPricePerNight();
     }
 
     // returns total price depending on pricePerNight, numberOfNights, and isWeekend boolean
